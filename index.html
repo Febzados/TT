@@ -1,66 +1,164 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Talent Competition Timer</title>
+<meta charset="UTF-8">
+<title>National Talent Test 2026</title>
+
 <style>
-body{
-font-family:Arial;
-background:black;
-color:white;
-text-align:center;
-padding-top:50px;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
+
+body{
+    background:black;
+    color:white;
+    font-family:Arial, sans-serif;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-items:center;
+    text-align:center;
+}
+
+#title{
+    font-size:3vw;
+    font-weight:bold;
+    width:95%;
+}
+
+#program{
+    font-size:5vw;
+    font-weight:bold;
+    color:#00BFFF;
+}
+
+#chest{
+    font-size:8vw;
+    font-weight:bold;
+}
+
 #timer{
-font-size:120px;
-font-weight:bold;
-color:green;
+    font-size:18vw;
+    font-weight:bold;
+    color:lime;
+    line-height:1;
+}
+
+.controls{
+    margin-top:10px;
+}
+
+button{
+    font-size:2vw;
+    padding:15px 30px;
+    margin:5px;
+    cursor:pointer;
+    border:none;
+    border-radius:8px;
+}
+
+input{
+    font-size:2vw;
+    padding:10px;
+    width:250px;
+    text-align:center;
+}
+
+.red{
+    color:red !important;
+}
+
+.orange{
+    color:orange !important;
 }
 </style>
 </head>
+
 <body>
 
-<h1>Talent Competition</h1>
+<div id="title">
+CHURCH OF GOD UAE, YPE AND SS<br>
+NATIONAL TALENT TEST 2026
+</div>
 
-<h2 id="program">Program Name</h2>
-<h2 id="chest">Chest No: 101</h2>
+<div id="program">
+PROGRAM : SOLO
+</div>
 
-<div id="timer">00:00</div>
+<div>
+<input id="chestInput" placeholder="Enter Chest No">
+<button onclick="loadChest()">LOAD</button>
+</div>
 
-<button onclick="start()">Start</button>
-<button onclick="reset()">Reset</button>
+<div id="chest">
+CHEST NO : ---
+</div>
+
+<div id="timer">
+00:00
+</div>
+
+<div class="controls">
+<button onclick="startTimer()">START</button>
+<button onclick="pauseTimer()">PAUSE</button>
+<button onclick="resetTimer()">RESET</button>
+</div>
 
 <script>
-let sec=0;
-let interval;
 
-function start(){
-clearInterval(interval);
+let seconds = 0;
+let interval = null;
 
-interval=setInterval(()=>{
-sec++;
-
-let m=Math.floor(sec/60);
-let s=sec%60;
-
-timer.innerHTML=
-String(m).padStart(2,'0')+":"+
-String(s).padStart(2,'0');
-
-if(sec<90)
-timer.style.color="lime";
-else if(sec<110)
-timer.style.color="orange";
-else
-timer.style.color="red";
-
-},1000);
+function loadChest(){
+    let chest = document.getElementById("chestInput").value;
+    document.getElementById("chest").innerHTML =
+    "CHEST NO : " + chest;
 }
 
-function reset(){
-clearInterval(interval);
-sec=0;
-timer.innerHTML="00:00";
-timer.style.color="lime";
+function startTimer(){
+
+    if(interval) return;
+
+    interval = setInterval(()=>{
+
+        seconds++;
+
+        let min = Math.floor(seconds/60);
+        let sec = seconds%60;
+
+        document.getElementById("timer").innerHTML =
+        String(min).padStart(2,'0') + ":" +
+        String(sec).padStart(2,'0');
+
+        let timer = document.getElementById("timer");
+
+        if(seconds < 110){
+            timer.style.color = "lime";
+        }
+        else if(seconds < 120){
+            timer.style.color = "orange";
+        }
+        else{
+            timer.style.color = "red";
+        }
+
+    },1000);
+}
+
+function pauseTimer(){
+    clearInterval(interval);
+    interval = null;
+}
+
+function resetTimer(){
+    pauseTimer();
+    seconds = 0;
+
+    document.getElementById("timer").innerHTML = "00:00";
+    document.getElementById("timer").style.color = "lime";
 }
 </script>
 
