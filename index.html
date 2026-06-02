@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Talent Competition Timer</title>
+<style>
+body{
+font-family:Arial;
+background:black;
+color:white;
+text-align:center;
+padding-top:50px;
+}
+#timer{
+font-size:120px;
+font-weight:bold;
+color:green;
+}
+</style>
+</head>
+<body>
+
+<h1>Talent Competition</h1>
+
+<h2 id="program">Program Name</h2>
+<h2 id="chest">Chest No: 101</h2>
+
+<div id="timer">00:00</div>
+
+<button onclick="start()">Start</button>
+<button onclick="reset()">Reset</button>
+
+<script>
+let sec=0;
+let interval;
+
+function start(){
+clearInterval(interval);
+
+interval=setInterval(()=>{
+sec++;
+
+let m=Math.floor(sec/60);
+let s=sec%60;
+
+timer.innerHTML=
+String(m).padStart(2,'0')+":"+
+String(s).padStart(2,'0');
+
+if(sec<90)
+timer.style.color="lime";
+else if(sec<110)
+timer.style.color="orange";
+else
+timer.style.color="red";
+
+},1000);
+}
+
+function reset(){
+clearInterval(interval);
+sec=0;
+timer.innerHTML="00:00";
+timer.style.color="lime";
+}
+</script>
+
+</body>
+</html>
