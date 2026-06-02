@@ -1,165 +1,258 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
 <title>National Talent Test 2026</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
 
 body{
+    margin:0;
     background:black;
     color:white;
     font-family:Arial, sans-serif;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-evenly;
-    align-items:center;
     text-align:center;
 }
 
-#title{
-    font-size:3vw;
+.title{
+    font-size:4vw;
     font-weight:bold;
-    width:95%;
+    margin-top:10px;
 }
 
-#program{
+.line{
+    border-top:3px solid gold;
+    margin:15px 2%;
+}
+
+.label{
+    color:gold;
+    font-size:2.5vw;
+    font-weight:bold;
+}
+
+.program{
     font-size:5vw;
     font-weight:bold;
-    color:#00BFFF;
 }
 
-#chest{
-    font-size:8vw;
+.chest{
+    font-size:7vw;
     font-weight:bold;
 }
 
-#timer{
+.timer{
     font-size:18vw;
     font-weight:bold;
     color:lime;
     line-height:1;
 }
 
+.green{
+    color:lime;
+}
+
+.orange{
+    color:orange;
+}
+
+.red{
+    color:red;
+}
+
+.flash{
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0.2;
+    }
+}
+
 .controls{
-    margin-top:10px;
+    margin-top:15px;
 }
 
 button{
-    font-size:2vw;
+    font-size:1.8vw;
     padding:15px 30px;
     margin:5px;
-    cursor:pointer;
     border:none;
-    border-radius:8px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.start{
+    background:#00aa44;
+    color:white;
+}
+
+.pause{
+    background:#ff8800;
+    color:white;
+}
+
+.reset{
+    background:#cc0000;
+    color:white;
+}
+
+.full{
+    background:#0055cc;
+    color:white;
 }
 
 input{
     font-size:2vw;
-    padding:10px;
-    width:250px;
     text-align:center;
+    padding:8px;
+    width:220px;
 }
 
-.red{
-    color:red !important;
-}
-
-.orange{
-    color:orange !important;
-}
 </style>
+
 </head>
 
 <body>
 
-<div id="title">
-CHURCH OF GOD UAE, YPE AND SS<br>
-NATIONAL TALENT TEST 2026
+<div class="title">
+Church of God UAE<br>
+YPE and SS National Talent Test 2026
 </div>
 
-<div id="program">
-PROGRAM : SOLO
+<div class="line"></div>
+
+<div class="label">PROGRAM</div>
+
+<div class="program">
+SOLO
 </div>
+
+<div class="label">CHEST NO.</div>
 
 <div>
-<input id="chestInput" placeholder="Enter Chest No">
+<input id="chestInput" placeholder="Chest No">
 <button onclick="loadChest()">LOAD</button>
 </div>
 
-<div id="chest">
-CHEST NO : ---
+<div id="chest" class="chest">
+101
 </div>
 
-<div id="timer">
+<div id="timer" class="timer green">
 00:00
 </div>
 
+<div class="line"></div>
+
 <div class="controls">
-<button onclick="startTimer()">START</button>
-<button onclick="pauseTimer()">PAUSE</button>
-<button onclick="resetTimer()">RESET</button>
+
+<button class="start" onclick="startTimer()">
+START
+</button>
+
+<button class="pause" onclick="pauseTimer()">
+PAUSE
+</button>
+
+<button class="reset" onclick="resetTimer()">
+RESET
+</button>
+
+<button class="full" onclick="openFullscreen()">
+FULLSCREEN
+</button>
+
 </div>
 
 <script>
 
-let seconds = 0;
-let interval = null;
+let seconds=0;
+let interval=null;
 
 function loadChest(){
-    let chest = document.getElementById("chestInput").value;
-    document.getElementById("chest").innerHTML =
-    "CHEST NO : " + chest;
+
+document.getElementById("chest").innerHTML=
+document.getElementById("chestInput").value;
+
 }
 
 function startTimer(){
 
-    if(interval) return;
+if(interval) return;
 
-    interval = setInterval(()=>{
+interval=setInterval(()=>{
 
-        seconds++;
+seconds++;
 
-        let min = Math.floor(seconds/60);
-        let sec = seconds%60;
+let min=Math.floor(seconds/60);
+let sec=seconds%60;
 
-        document.getElementById("timer").innerHTML =
-        String(min).padStart(2,'0') + ":" +
-        String(sec).padStart(2,'0');
+document.getElementById("timer").innerHTML=
+String(min).padStart(2,'0')+
+":"+
+String(sec).padStart(2,'0');
 
-        let timer = document.getElementById("timer");
+let timer=document.getElementById("timer");
 
-        if(seconds < 110){
-            timer.style.color = "lime";
-        }
-        else if(seconds < 120){
-            timer.style.color = "orange";
-        }
-        else{
-            timer.style.color = "red";
-        }
+timer.classList.remove("green","orange","red","flash");
 
-    },1000);
+if(seconds<=111){
+
+timer.classList.add("green");
+
+}
+else if(seconds<=120){
+
+timer.classList.add("orange");
+
+}
+else{
+
+timer.classList.add("red");
+timer.classList.add("flash");
+
+}
+
+},1000);
+
 }
 
 function pauseTimer(){
-    clearInterval(interval);
-    interval = null;
+
+clearInterval(interval);
+interval=null;
+
 }
 
 function resetTimer(){
-    pauseTimer();
-    seconds = 0;
 
-    document.getElementById("timer").innerHTML = "00:00";
-    document.getElementById("timer").style.color = "lime";
+pauseTimer();
+
+seconds=0;
+
+let timer=document.getElementById("timer");
+
+timer.innerHTML="00:00";
+
+timer.classList.remove("orange","red","flash");
+
+timer.classList.add("green");
+
 }
+
+function openFullscreen(){
+
+if(document.documentElement.requestFullscreen){
+
+document.documentElement.requestFullscreen();
+
+}
+
+}
+
 </script>
 
 </body>
